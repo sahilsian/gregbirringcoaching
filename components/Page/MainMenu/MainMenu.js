@@ -10,7 +10,7 @@ import { Paragraph } from "../../Core/Paragraph";
 import { Label } from "../../Custom/Label";
 import { useCallback, useEffect, useState } from "react";
 
-export const MainMenu = ({ items, active, callToActionLabel, callToActionDestination, onClick }) => {
+export const MainMenu = ({ items, type, active, callToActionLabel, callToActionDestination, onClick }) => {
     const router = useRouter();
 
     const [scrollY, setScrollY] = useState('');
@@ -37,8 +37,8 @@ export const MainMenu = ({ items, active, callToActionLabel, callToActionDestina
                         <Link href={"/"}>
                             <Image alt="Light Logo" className="my-7 lg:max-w-[150px] max-w-[100px]" width={200} height={63} objectFit="cover" src={'/logo.png'}></Image>
                         </Link>
-
                         {/* Nav Links */}
+                        {type == 'page' && 
                         <div className={`flex max-[1020px]:hidden items-center`}>
                             <div className={`flex h-full text-center gap-6`}>
                                 {items.map((item) => {
@@ -87,17 +87,26 @@ export const MainMenu = ({ items, active, callToActionLabel, callToActionDestina
                             </div>
 
                         </div>
+                        }
                         
                     </div>
                     {/* Call to Action */}
+                    {type == 'page' ? 
                     <div className="flex items-center max-[1020px]:hidden">
                             <CallToActionButton destination={callToActionDestination} buttonLabel={callToActionLabel} type="secondary"></CallToActionButton>
-                        </div>
-
+                    </div>
+                    :
+                    <div className="flex items-center">
+                            <CallToActionButton destination={"/form/reiki-retreat-signup"} buttonLabel={"Sign Up"} type="secondary"></CallToActionButton>
+                    </div>
+                    }
                     {/* Mobile Header Button */}
+
+                    {type == 'page' && 
                     <div className="my-7 flex items-center cursor-pointer menu" onClick={onClick}>
                         <FontAwesomeIcon className="hover:opacity-80 transition-all" style={{ width: "24px", height: "24px" }} color={"#FFFFFF"} size="sm" icon={faBars} />
                     </div>
+                    }
                 </div>
             </div>
         </div>

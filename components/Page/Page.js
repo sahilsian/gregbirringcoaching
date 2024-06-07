@@ -19,7 +19,7 @@ export const Page = (props) => {
     useEffect(()=> {
         setActive(false)
     }, [router.reload])
-
+    console.log(props)
     return (
         <div className={`font-heading`}>
             <Head>
@@ -96,8 +96,8 @@ export const Page = (props) => {
                 </div>
                 <div >
                     {/* All Site Content */}
-
-                    <MainMenu active={active} onClick={()=> {
+                    
+                    <MainMenu type={props.type} active={active} onClick={()=> {
                         setActive(!active);
                         
                     }} items={props.mainMenuItems} callToActionLabel={props.callToActionLabel} callToActionDestination={props.callToActionDestination}></MainMenu>
@@ -105,7 +105,9 @@ export const Page = (props) => {
                     <ParallaxProvider>
                         <BlockRenderer items={props.mainMenuItems} blocks={props.blocks}></BlockRenderer>
                     </ParallaxProvider>
+                    {props.type == "page" && 
                     <Footer callToActionLabel={props.callToActionLabel} callToActionDestination={props.callToActionDestination} items={props.mainMenuItems}></Footer>
+                    }
                 </div>
             </div>
 

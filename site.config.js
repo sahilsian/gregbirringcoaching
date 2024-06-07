@@ -23,7 +23,7 @@ const siteConfig = {
             footertext: "Greg Birring is dedicated to empowering individuals with the tools and mindset needed to excel in their business endeavors. With a focus on cultivating an abundance mindset, visualizing goals, and strategic implementation, he guides his clients towards achieving their aspirations. Through his unwavering commitment to continuous learning, adaptability, and the importance of emotional intelligence, Greg Birring paves the way for sustained success in the ever-evolving landscape of entrepreneurship.",
             email: "gregbirring@gmail.com",
             phone: "778-859-5425",
-            copyright: "Kick it Web Design"
+            copyright: "Greg Birring Coaching 2022-2024"
         }
         
     }
