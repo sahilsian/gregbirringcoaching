@@ -36,32 +36,23 @@ import { ServiceHighlights } from '../Custom/ServiceHighlights'
 import mapACFRepeater from '../../lib/mapACFRepeater'
 import Image from 'next/image'
 
-export const BlockRenderer = ({ items, blocks }) => {
+export const BlockRenderer = ({ blocks }) => {
     return blocks.map(block => {
         switch (block.name) {
-            // 
+
+            case "acf/cart": {
+                console.log(block)
+                return <CartPage></CartPage>
+            }
+
+            // Gravity Forms form handling. Custom form creation, submission and validation.
+
             case "gravityforms/form": {
                 return <GravityFormsComponent formId={block.attributes.formId}></GravityFormsComponent>
             }
 
-            // "List" Component in Gutenberg Page Builder
-            case "core/list": {
-                return <List key={block.id}>
-                    <BlockRenderer blocks={block.innerBlocks}></BlockRenderer>
-                </List>
-            }
+            // Advanced Custom Fields. Custom gutengberg components that are defined using advanced custom fields. 
 
-            // Nested item in list component
-            case "core/list-item": {
-                return <ListItem key={block.id} content={block.originalContent}></ListItem>
-            }
-
-            // Draggable Footer
-            // case "acf/footer": {
-            //     return <Footer items={items} data={block.attributes.data}></Footer>
-            // }
-
-            // Custom Call to Action Button
             case "acf/ctabutton": {
                 return <CallToActionButton
                     key={block.id}
@@ -74,12 +65,10 @@ export const BlockRenderer = ({ items, blocks }) => {
 
             case "acf/benefits": {
                 return <Benefits benefits={mapACFRepeater(block.attributes.data)}>
-
                 </Benefits>
             }
 
             case "acf/service-highlights": {
-                console.log(block)
                 return <ServiceHighlights 
                 image={block.attributes.data.image} 
                 title={block.attributes.data.title} 
@@ -90,7 +79,6 @@ export const BlockRenderer = ({ items, blocks }) => {
             }
 
             case "acf/faq" : {
-                console.log(block)
                 return <Faq list={mapACFRepeater(block.attributes.data)}>
 
                 </Faq>
@@ -112,11 +100,17 @@ export const BlockRenderer = ({ items, blocks }) => {
             case "acf/logos": {
                 return <Logos
                     logo_1={block.attributes.data.logo_1}
+                    logo_1_link={block.attributes.data.logo_1_link}
                     logo_2={block.attributes.data.logo_2}
+                    logo_2_link={block.attributes.data.logo_2_link}
                     logo_3={block.attributes.data.logo_3}
+                    logo_3_link={block.attributes.data.logo_3_link}
                     logo_4={block.attributes.data.logo_4}
+                    logo_4_link={block.attributes.data.logo_4_link}
                     logo_5={block.attributes.data.logo_5}
+                    logo_5_link={block.attributes.data.logo_5_link}
                     logo_6={block.attributes.data.logo_6}
+                    logo_6_link={block.attributes.data.logo_6_link}
                 >
 
                 </Logos>
@@ -200,7 +194,6 @@ export const BlockRenderer = ({ items, blocks }) => {
             }
 
             case "acf/calendly": {
-                console.log(block)
                 return <Calendly calendlyURL={block.attributes.data.calendlyURL}>
                 </Calendly>
             }
@@ -268,33 +261,41 @@ export const BlockRenderer = ({ items, blocks }) => {
                 ></BuyingPoint>
             }
 
-            // Just a Div :)
+            case "acf/highlights": {
+                return  <Highlights
+                     title_heading = {block.attributes.data.title_heading}
+                     title_explanation = {block.attributes.data.title_explanation}
+                     checklist_descriptions = {mapACFRepeater(block.attributes.data)}
+                     image_area = {block.attributes.data.image_area}
+                 ></Highlights>
+             }
+
+             // Core gutenberg components. Most are complete, some are not available due to precedence.
+
+            case "core/list": {
+                return <List key={block.id}>
+                    <BlockRenderer blocks={block.innerBlocks}></BlockRenderer>
+                </List>
+            }
+
+            case "core/list-item": {
+                return <ListItem key={block.id} content={block.originalContent}></ListItem>
+            }
+
             case "core/query": {
                 <Query key={block.id}>
                     <BlockRenderer blocks={block.innerBlocks}></BlockRenderer>
                 </Query>
             }
 
-            case "acf/highlights": {
-               return  <Highlights
-                    title_heading = {block.attributes.data.title_heading}
-                    title_explanation = {block.attributes.data.title_explanation}
-                    checklist_descriptions = {mapACFRepeater(block.attributes.data)}
-                    image_area = {block.attributes.data.image_area}
-                ></Highlights>
-            }
-
-            // Gallery Component for Images Stacked ontop of Eachother
             case "core/gallery": {
                 return <Gallery key={block.id} columns={block.attributes.columns || 3} cropImages={block.attributes.imageCrop} items={block.innerBlocks}></Gallery>
             }
 
-            // Spacer that provides custom margin in-between components
             case "core/spacer": {
                 return <Spacer key={block.id} height={block.attributes.height || "81px"}></Spacer>
             }
 
-            // Paragraph component
             case "core/paragraph": {
                 return <Paragraph
                     className={block.attributes.className}
@@ -306,7 +307,6 @@ export const BlockRenderer = ({ items, blocks }) => {
                 ></Paragraph>
             }
 
-            // Fancy Heading used for dynamic page groups (posts, blogs, etc)
             case "core/post-title": {
                 return <Heading
                     key={block.id}
@@ -316,7 +316,6 @@ export const BlockRenderer = ({ items, blocks }) => {
                 />
             }
 
-            // Page heading {H1, H2, H3, H4, H5, H6}
             case "core/heading": {
                 return <Heading
                     className={block.attributes.className}
@@ -329,28 +328,24 @@ export const BlockRenderer = ({ items, blocks }) => {
                 />
             }
 
-            // Page Hero: Landing page viewport
             case "core/cover": {
                 return <Cover className={block.attributes?.className} key={block.id} background={block.attributes.url}>
                     <BlockRenderer blocks={block.innerBlocks}></BlockRenderer>
                 </Cover>
             }
 
-            // Columns Component: Wrapper for all Columns
             case "core/columns": {
                 return <Columns padding={block.attributes.style?.spacing?.padding} className={block.attributes?.className} key={block.id} stackOnMobile={block.attributes.isStackedOnMobile}>
                     <BlockRenderer blocks={block.innerBlocks}></BlockRenderer>
                 </Columns>
             }
 
-            // Each individual child column within columns component
             case "core/column": {
                 return <Column padding={block.attributes.style?.spacing?.padding} bgColor={block.attributes.style?.color?.background} className={block.attributes?.className} layout={block.attributes?.layout || ""} verticalAlignment={block.attributes.verticalAlignment || false} key={block.id} width={block.attributes.width}>
                     <BlockRenderer blocks={block.innerBlocks}></BlockRenderer>
                 </Column>
             }
 
-            // Generic Group Component
             case "core/group": {
                 return <Group
                     border={block.attributes.style?.border}
@@ -365,13 +360,11 @@ export const BlockRenderer = ({ items, blocks }) => {
                 </Group>
             }
 
-            // Block Renderer Call (Calls itself, used as an initial opening to the page generation)
             case "core/block": {
                 return <BlockRenderer keys={block.id} blocks={block.innerBlocks}>
                 </BlockRenderer>
             }
 
-            // Render for ALL images on website. This is important because each image must be optimized effectively to preserve fast page speeds.
             case "core/image": {
                 return (
                     <div className={""}>
@@ -383,21 +376,13 @@ export const BlockRenderer = ({ items, blocks }) => {
                             alt={block.attributes.alt || ""}
                             className={block.attributes.className || ""}
                         />
-                        {/*test <Lightbox
-                            open={open}
-                            close={() => setOpen(false)}
-                            slides={[
-                                { src: block.attributes.url },
-                              ]}
-                            
-                        ></Lightbox> */}
                     </div>
 
                 )
             }
 
             default: {
-                console.log("UNKNOWN:", block)
+                console.log(block)
                 return null;
             }
         }
