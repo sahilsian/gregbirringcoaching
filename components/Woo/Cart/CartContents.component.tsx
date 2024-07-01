@@ -106,7 +106,7 @@ const CartContents = () => {
   }, [refetch]);
 
   return (
-    <section className="flex-1 minw300">
+    <section className="flex-1 minw300 pb-[100px]">
       <div className="container items-center mx-auto">
         <div className='p-4 border-2 mx-auto'>
 
