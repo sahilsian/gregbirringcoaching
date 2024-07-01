@@ -33,6 +33,7 @@ import { Benefits } from '../Custom/Benefits'
 import { Calendly } from '../Custom/Calendly'
 import { G_Reviews } from '../Custom/G_Reviews'
 import { ServiceHighlights } from '../Custom/ServiceHighlights'
+import { Order } from "../Woo/Order"
 import mapACFRepeater from '../../lib/mapACFRepeater'
 import Image from 'next/image'
 
@@ -43,6 +44,10 @@ export const BlockRenderer = ({ blocks }) => {
             case "acf/cart": {
                 console.log(block)
                 return <CartPage></CartPage>
+            }
+
+            case "acf/orderstatus": {
+                return <Order></Order>
             }
 
             // Gravity Forms form handling. Custom form creation, submission and validation.

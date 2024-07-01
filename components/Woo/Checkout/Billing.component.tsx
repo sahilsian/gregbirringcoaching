@@ -11,8 +11,12 @@ import { InputField } from '../Input/InputField.component';
 import Button from '../UI/Button.component';
 
 // Constants
-import { INPUT_FIELDS } from '../../../lib/constants/INPUT_FIELDS';
+import { INPUT_FIELDS } from '../../../constants/INPUT_FIELDS';
 import { ICheckoutDataProps } from '../../../lib/functions/functions';
+import { Input } from '../../Core/Input';
+import { useEffect, useState } from 'react';
+import siteConfig from '../../../site.config';
+import BillingForm from './BillingForm.component';
 
 interface IBillingProps {
   handleFormSubmit: SubmitHandler<ICheckoutDataProps>;
@@ -22,16 +26,16 @@ const OrderButton = () => {
   const { register } = useFormContext();
 
   return (
-    <div className="w-full p-2">
+    <div className="w-full">
       <input
         placeholder="paymentMethod"
         type="hidden"
-        value="cod"
+        value="stripe"
         checked
         {...register('paymentMethod')}
       />
       <div className="mt-4 flex justify-center">
-        <Button>Purchase Now</Button>
+        <Button>Pay with Stripe</Button>
       </div>
     </div>
   );
@@ -41,18 +45,12 @@ const Billing = ({ handleFormSubmit }: IBillingProps) => {
   const methods = useForm<ICheckoutDataProps>();
 
   return (
-    <section className="text-gray-700 container p-4 py-2 mx-auto">
+    <section className="flex-1 minw300">
+      <div className='mb-4 mt-2'>Please fill out the following form to place your order</div>
       <FormProvider {...methods}>
         <form onSubmit={methods.handleSubmit(handleFormSubmit)}>
-          <div className="mx-auto lg:w-1/2 flex flex-wrap">
-            {INPUT_FIELDS.map(({ id, label, name, customValidation }) => (
-              <InputField
-                key={id}
-                inputLabel={label}
-                inputName={name}
-                customValidation={customValidation}
-              />
-            ))}
+          <div className="mx-auto ">
+            <BillingForm></BillingForm>
             <OrderButton />
           </div>
         </form>

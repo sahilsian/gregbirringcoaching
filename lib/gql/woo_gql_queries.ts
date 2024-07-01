@@ -16,6 +16,11 @@ export const GET_SINGLE_PRODUCT = gql`
         srcSet
         sourceUrl
       }
+      galleryImages {
+        nodes {
+          sourceUrl
+        }
+      }
       name
       ... on SimpleProduct {
         salePrice
