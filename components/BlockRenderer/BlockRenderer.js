@@ -34,6 +34,7 @@ import { Calendly } from '../Custom/Calendly'
 import { G_Reviews } from '../Custom/G_Reviews'
 import { ServiceHighlights } from '../Custom/ServiceHighlights'
 import { Order } from "../Woo/Order"
+import { EventTemplate } from "../Custom/EventTemplate"
 import mapACFRepeater from '../../lib/mapACFRepeater'
 import Image from 'next/image'
 
@@ -48,6 +49,10 @@ export const BlockRenderer = ({ blocks }) => {
 
             case "acf/orderstatus": {
                 return <Order></Order>
+            }
+
+            case "acf/event-template" : {
+                return <EventTemplate></EventTemplate>
             }
 
             // Gravity Forms form handling. Custom form creation, submission and validation.
