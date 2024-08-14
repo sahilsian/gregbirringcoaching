@@ -28,6 +28,7 @@ import {
 } from '../../../lib/functions/functions';
 import { createTheOrder } from '../../../lib/utils/order';
 import { getMetaData, getStripeLineItems } from '../../../lib/utils/checkout';
+import Link from 'next/link';
 
 export interface IBilling {
   firstName: string;
@@ -67,7 +68,7 @@ const CheckoutForm = () => {
   const [requestError, setRequestError] = useState<ApolloError | null>(null);
   const [createdOrderData, setCreatedOrderData] = useState<any>({});
   const [orderCompleted, setorderCompleted] = useState<boolean>(false);
-
+  const [isShippingBillingSame, setIsShippingBillingSame] = useState<boolean>(true)
 
   const handleStripeCheckout = async (input, products, setRequestError, setIsStripeOrderProcessing, setCreatedOrderData) => {
     setIsStripeOrderProcessing(true);
@@ -85,10 +86,10 @@ const CheckoutForm = () => {
 
     console.log(checkOutData)
 
-    localStorage.removeItem('woo-session');
-    localStorage.removeItem('wooocommerce-cart');
+    // localStorage.removeItem('woo-session');
+    // localStorage.removeItem('wooocommerce-cart');
     setorderCompleted(true);
-    setCart(null);
+    // setCart(null);
 
     setIsStripeOrderProcessing(false);
 
@@ -100,6 +101,7 @@ const CheckoutForm = () => {
   }
 
   const createCheckoutSessionAndRedirect = async ( products: Product[], input:any, orderId:any ) => {
+
     const sessionData = {
         success_url: window.location.origin + `/order?session_id={CHECKOUT_SESSION_ID}&order_id=${orderId}`,
         cancel_url: window.location.href,
@@ -151,10 +153,10 @@ const CheckoutForm = () => {
         input: orderData,
       },
       onCompleted: () => {
-        localStorage.removeItem('woo-session');
-        localStorage.removeItem('wooocommerce-cart');
-        setorderCompleted(true);
-        setCart(null);
+        // localStorage.removeItem('woo-session');
+        // localStorage.removeItem('wooocommerce-cart');
+        // setorderCompleted(true);
+        // setCart(null);
         refetch();
       },
       onError: (error) => {
@@ -179,11 +181,11 @@ const CheckoutForm = () => {
   }, [refetch]);
 
   const handleFormSubmit = async (submitData: any) => {
-    console.log(cart.products)
     if (submitData.paymentMethod == 'stripe') {
       const createdOrderData = await handleStripeCheckout(submitData, cart?.products, setRequestError, setIsStripeOrderProcessing, setCreatedOrderData);
       return null
     }
+
     const checkOutData = createCheckoutData(submitData, cart?.products);
     console.log(checkOutData)
     // setOrderData(checkOutData);
@@ -201,7 +203,7 @@ const CheckoutForm = () => {
           {/*Payment Details*/}
           <div className='flex-1'>
 
-            <Billing handleFormSubmit={handleFormSubmit} />
+            <Billing isShippingBillingSame={isShippingBillingSame} handleFormSubmit={handleFormSubmit} />
             {/*Error display*/}
             {requestError && (
               <div className="h-32 text-xl text-center text-red-600">
@@ -226,13 +228,22 @@ const CheckoutForm = () => {
       ) : (
         <>
           {!cart && !orderCompleted && (
+            <div>
+
             <h1 className="text-2xl m-12 mt-24 font-bold text-center">
               No products added to your shopping cart.
             </h1>
+            <Link href="/products">
+            <div className='p-4 text-center bg-blue-500 font-bold text-white'>
+              Shop All Products
+            </div>
+            </Link>
+          </div>
+
           )}
           {orderCompleted && (
             <div className="container h-24 m-12 mx-auto mt-24 text-xl text-center">
-              Thank you for your order.
+              You will be redirected to our secure payment screen shorly.
             </div>
           )}
         </>

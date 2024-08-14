@@ -164,6 +164,7 @@ export const BlockRenderer = ({ blocks }) => {
             }
 
             case "acf/image-highlight": {
+                console.log(block)
                 return <ImageHighlight
                     image={block.attributes.data.image.url}
                     imageWidth={block.attributes.data.image.width}
@@ -175,6 +176,7 @@ export const BlockRenderer = ({ blocks }) => {
                     row_1={block.attributes.data.row_1}
                     row_2={block.attributes.data.row_2}
                     row_3={block.attributes.data.row_3}
+                    align={block.attributes.data.align}
                 >
 
                 </ImageHighlight>

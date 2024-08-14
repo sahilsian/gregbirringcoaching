@@ -44,6 +44,7 @@ const updateOrder = async ( newStatus, orderId, transactionId = '' ) => {
 
     try {
         const {data} = await api.put( `orders/${ orderId }`, newOrderData );
+        
         console.log( '✅ Order updated data', data );
     } catch (ex) {
         console.error('Order creation error', ex);
@@ -52,6 +53,7 @@ const updateOrder = async ( newStatus, orderId, transactionId = '' ) => {
 }
 
 const handler = async (req, res) => {
+    const { cart, setCart } = useContext(CartContext);
     if (req.method === "POST") {
         const buf = await buffer(req);
         const sig = req.headers["stripe-signature"];

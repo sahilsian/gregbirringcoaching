@@ -117,58 +117,116 @@ const CartContents = () => {
                 <div className='font-bold py-5 pb-8 text-xl'>Your Cart</div>
                 <div className='flex-col flex gap-4'>
                   {data.cart.contents.nodes.map((item: IProductRootObject) => (
-                    <div className='flex justify-between gap-4 border-b-[1px] pb-4'>
-                      <div className='flex gap-4 w-full'>
-                        <div className=' mb-auto'>
-                          <Image className='min-w-[100px] max-w-[250px] w-full h-full object-cover' alt={"cart image"} src={item.product.node.image.sourceUrl} width={300} height={300}></Image>
-                        </div>
-                        <div className='max-w-[170px] md:max-w-[300px] w-full'>
-                          <div className="font-medium">
-                            
-                            {item.product.node.name}: <span className='font-light'>{item.variation.node.name}</span>
+                    <div>
+                      {isCheckoutPage ?
+                        <div className=' border-2 p-4'>
+                          <div className='w-full'>
+                            <div className=' mb-auto'>
+                              <Image className='w-full h-full object-cover' alt={"cart image"} src={item.product.node.image.sourceUrl} width={600} height={600}></Image>
+                            </div>
+                            <div className='w-full mt-3 text-center'>
+                              <div className="font-medium">
+
+                                {item.product.node.name}: <span className='font-light'>{item.variation.node.name}</span>
+                              </div>
+                            </div>
                           </div>
-                          <div>
-                          </div>
-                          <div>
-                            <div className='mb-2 text-xs mt-5'>Quantity</div>
-                            <input
-                              className="border-2 max-w-[70px] md:max-w-[70px] w-full p-2"
-                              type="number"
-                              min="1"
-                              value={item.quantity}
-                              onChange={(event) => {
-                                handleQuantityChange(
-                                  event,
+                          <div className='flex mt-5 justify-between items-center'>
+                            <div>
+                              <div className='mb-2 text-xs'>Quantity</div>
+                              <input
+                                className="border-2 max-w-[100px] md:max-w-[100px] w-full p-2"
+                                type="number"
+                                min="1"
+                                value={item.quantity}
+                                onChange={(event) => {
+                                  handleQuantityChange(
+                                    event,
+                                    item.key,
+                                    data.cart.contents.nodes,
+                                    updateCart,
+                                    updateCartProcessing,
+                                  );
+                                }}
+                              />
+                            </div>
+                            <div className=' flex h-full  items-center cursor-pointer text-right'>
+                              <div onClick={() => {
+                                handleRemoveProductClick(
                                   item.key,
                                   data.cart.contents.nodes,
-                                  updateCart,
-                                  updateCartProcessing,
-                                );
-                              }}
-                            />
+                                )
+                              }} className='border-2 p-2 flex items-center justify-center max-w-[22px]'>
+                                <FontAwesomeIcon width={"24px"} height={"24px"} icon={faClose}></FontAwesomeIcon>
+                              </div>
+                            </div>
+
+                          </div>
+                          <div className=" mt-4 flex justify-between">
+                            <div>
+                              <div className='text-zinc-400'>Price</div>
+                            </div>
+                            <div>
+                              <div className=''>{item.subtotal}</div>
+                            </div>
                           </div>
                         </div>
-                      </div>
-                      <div className='flex flex-col items-end'>
-                        <div className="md:w-full lg:w-full xl:w-full text-xl mb-14">
-                          {item.subtotal}
-                        </div>
-                        <div className=' cursor-pointer text-right'>
-                          <div onClick={() => {
-                            handleRemoveProductClick(
-                              item.key,
-                              data.cart.contents.nodes,
-                            )
-                          }} className='border-2 p-2 flex items-center justify-center max-w-[22px]'>
-                            <FontAwesomeIcon width={"24px"} height={"24px"} icon={faClose}></FontAwesomeIcon>
+                        :
+                        <div className='flex justify-between gap-4 border-b-[1px] pb-4'>
+                          <div className='flex gap-4 w-full'>
+                            <div className=' mb-auto'>
+                              <Image className='min-w-[100px] max-w-[250px] w-full h-full object-cover' alt={"cart image"} src={item.product.node.image.sourceUrl} width={300} height={300}></Image>
+                            </div>
+                            <div className='max-w-[170px] md:max-w-[300px] w-full'>
+                              <div className="font-medium">
+
+                                {item.product.node.name}: <span className='font-light'>{item.variation.node.name}</span>
+                              </div>
+                              <div>
+                              </div>
+                              <div>
+                                <div className='mb-2 text-xs mt-5'>Quantity</div>
+                                <input
+                                  className="border-2 max-w-[70px] md:max-w-[70px] w-full p-2"
+                                  type="number"
+                                  min="1"
+                                  value={item.quantity}
+                                  onChange={(event) => {
+                                    handleQuantityChange(
+                                      event,
+                                      item.key,
+                                      data.cart.contents.nodes,
+                                      updateCart,
+                                      updateCartProcessing,
+                                    );
+                                  }}
+                                />
+                              </div>
+                            </div>
+                          </div>
+                          <div className='flex flex-col items-end'>
+                            <div className="md:w-full lg:w-full xl:w-full text-xl mb-14">
+                              {item.subtotal}
+                            </div>
+                            <div className=' cursor-pointer text-right'>
+                              <div onClick={() => {
+                                handleRemoveProductClick(
+                                  item.key,
+                                  data.cart.contents.nodes,
+                                )
+                              }} className='border-2 p-2 flex items-center justify-center max-w-[22px]'>
+                                <FontAwesomeIcon width={"24px"} height={"24px"} icon={faClose}></FontAwesomeIcon>
+                              </div>
+                            </div>
                           </div>
                         </div>
-                      </div>
+                      }
                     </div>
                   ))}
                 </div>
               </div>
               <div className=' mb-[40px]'>
+                <div className='border-b-[1px] mb-7'></div>
                 <div className='mt-3 flex justify-between'>
                   <div>
                     <div className='text-zinc-400'>Sub Total</div>
@@ -183,7 +241,7 @@ const CartContents = () => {
                       <div className='text-zinc-400'>Discount Total</div>
                     </div>
                     <div>
-                      <div className='text-green-400'>{data?.cart?.total}</div>
+                      <div className=''>{data?.cart?.total}</div>
                     </div>
                   </div>
                 }

@@ -17,9 +17,11 @@ import { Input } from '../../Core/Input';
 import { useEffect, useState } from 'react';
 import siteConfig from '../../../site.config';
 import BillingForm from './BillingForm.component';
+import ShippingForm from './ShippingForm.component';
 
 interface IBillingProps {
   handleFormSubmit: SubmitHandler<ICheckoutDataProps>;
+  isShippingBillingSame: boolean
 }
 
 const OrderButton = () => {
@@ -41,16 +43,25 @@ const OrderButton = () => {
   );
 };
 
-const Billing = ({ handleFormSubmit }: IBillingProps) => {
+const Billing = ({ handleFormSubmit, isShippingBillingSame }: IBillingProps) => {
   const methods = useForm<ICheckoutDataProps>();
 
   return (
     <section className="flex-1 minw300">
-      <div className='mb-4 mt-2'>Please fill out the following form to place your order</div>
+      <div className='mb-4 mt-2'>Please fill in your details to place your order.</div>
       <FormProvider {...methods}>
         <form onSubmit={methods.handleSubmit(handleFormSubmit)}>
           <div className="mx-auto ">
+            {isShippingBillingSame ?
+            <div>
+            <ShippingForm></ShippingForm>
+            </div>
+            :
+            <div>
+            <ShippingForm></ShippingForm>
             <BillingForm></BillingForm>
+            </div>
+            }
             <OrderButton />
           </div>
         </form>

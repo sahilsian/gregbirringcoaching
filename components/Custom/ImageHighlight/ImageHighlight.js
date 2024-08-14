@@ -6,7 +6,7 @@ import { HeadingLabel } from "../HeadingLabel";
 import { Paragraph } from "../../Core/Paragraph";
 import { CallToActionButton } from "../CallToActionButton";
 
-export const ImageHighlight = ({image, imageWidth, imageHeight, title="hello world", paragraph="lorem ipsum dolor",imageAlt, row_1, row_2, row_3 }) => {
+export const ImageHighlight = ({image, align="left", imageWidth, imageHeight, title="hello world", paragraph="lorem ipsum dolor",imageAlt, row_1, row_2, row_3 }) => {
     const direction = {
         right: 'row',
         left: 'row-reverse'
@@ -20,13 +20,14 @@ export const ImageHighlight = ({image, imageWidth, imageHeight, title="hello wor
     });
     {/* style={{flexDirection: direction[align]}} */}
     return (
-        <div className="relative  md:flex w-full overflow-hidden">
-           <div className={"w-full flex max-h-[700px] overflow-hidden"}>
-                <div className="flex-[1.3] max-[970px]:hidden max-[970px]:flex=[0.5] max-[1250px]:flex-1 max-[1075px]:flex-[0.75]">
+        <div className={`relative w-full md:flex overflow-hidden`}>
+           <div className={`w-full flex ${align == "left" ? "flex-row" : "flex-row-reverse"} max-[540px]:h-[900px] max-h-[900px] overflow-hidden`}>
+                <div className="flex-[1.3] max-[970px]:hidden max-[970px]:flex-[0.5] max-[1250px]:flex-1 max-[1075px]:flex-[0.75]">
                 </div>
-                <div className="flex-1">
-                    <Image className="max-[970px]:w-[110%] max-[540px]:w-[100%] max-[540px]:h-[200%] max-[970px]:h-[110%]" ref={parallaxImage.ref} objectPosition={"bottom"} width={imageWidth} height={imageHeight} objectFit="cover" src={image} alt={imageAlt}>
+                <div className="flex-1 relative">
+                    <Image className="max-[970px]:w-[110%] max-[540px]:h-[100%] md:blur-none blur-sm  max-[970px]:h-[110%]" ref={parallaxImage.ref} objectPosition={"bottom"} width={imageWidth} height={imageHeight} objectFit="cover" src={image} alt={imageAlt}>
                     </Image>
+                    <div className="bg-black min-[970px]:hidden opacity-70 absolute top-0 w-full h-full"></div>
                 </div>
             </div>
             <div className="absolute top-0 w-full h-full">
@@ -37,17 +38,17 @@ export const ImageHighlight = ({image, imageWidth, imageHeight, title="hello wor
                             alt={text_backdropAlt}
                             ></Image>
                         </div> */}
-                        <div className="absolute bg-[#FFFFFFE9]  max-[128px]:bg-transparent rounded-lg p-5" ref={parallaxCol.ref}>
+                        <div className="absolute max-[128px]:bg-transparent text-white min-[970px]:text-black  rounded-lg p-5" ref={parallaxCol.ref}>
                             {/* <HeadingLabel textAlign={"left"} color={siteConfig.colors.solids.primary} content={accent}></HeadingLabel> */}
-                            <Heading content={title} level={5} textColor={siteConfig.colors.texts.secondary}></Heading>
-                            <Paragraph textColor={siteConfig.colors.texts.secondary} content={paragraph}></Paragraph>
-                            <div className=" border-b-2 pb-4 border-b-black font-bold mb-5">
+                            <Heading content={title} level={5} ></Heading>
+                            <Paragraph  content={paragraph}></Paragraph>
+                            <div className=" border-b-[1px] pb-2 text-center min-[970px]:text-left border-b-white min-[970px]:border-b-black mb-5">
                                 {row_1}
                             </div>
-                            <div className=" border-b-2 pb-4 border-b-black font-bold mb-5">
+                            <div className=" border-b-[1px] pb-2 text-center min-[970px]:text-left border-b-white min-[970px]:border-b-black mb-5">
                                 {row_2}
                             </div>
-                            <div className=" border-b-2 pb-4 border-b-black font-bold mb-5">
+                            <div className=" border-b-[1px] pb-2 text-center min-[970px]:text-left border-b-white min-[970px]:border-b-black  mb-5">
                                 {row_3}
                             </div>
                             {/* <CallToActionButton type="primary" buttonLabel={buttonText} destination={destination}></CallToActionButton> */}

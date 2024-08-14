@@ -15,13 +15,15 @@ export const Order = () => {
     useEffect(() => {
         setSessionFetching(true);
         if (process.browser) {
-            localStorage.removeItem('woo-next-cart');
+            localStorage.removeItem('woo-session');
+            localStorage.removeItem('wooocommerce-cart');
             setCart(null);
 
             if (session_id) {
                 axios.get(`/api/get-stripe-session/?session_id=${session_id}`)
                     .then((response) => {
                         setSessionData(response?.data ?? {});
+                        console.log(response.data)
                         console.log(response)
                         setSessionFetching(false);
                     })
@@ -44,7 +46,11 @@ export const Order = () => {
                   </div> : (
                     <>
                         <h2 className="mb-6 text-xl"><span>Thank you for placing the order.</span></h2>
-                        <p>Your payment is successful and your order details are: </p>
+
+                        <p className="mb-3">Order:</p>
+                        
+
+                        <p className="mb-3">Order Details:</p>
                         <table className="table-auto w-full text-left whitespace-no-wrap mb-8">
                             <thead>
                             <tr>
@@ -60,6 +66,10 @@ export const Order = () => {
                             <tr>
                                 <td className="px-4 py-3">Email</td>
                                 <td className="px-4 py-3">{sessionData?.customer_details?.email}</td>
+                            </tr>
+                            <tr>
+                                <td className="px-4 py-3">Name</td>
+                                <td className="px-4 py-3">{sessionData?.customer_details?.name}</td>
                             </tr>
                             </tbody>
                         </table>
